@@ -124,7 +124,8 @@
                         <p>Females: 1,300-1,600 lbs (590-725 kg).</p>
                         <p class="card-text">Price: R20,000</p>
                         <p class="card-text">Availability: In Stock</p>
-                        <button class="buy-now-btn" onclick="addToCart('Cow 1')">Buy Now</button>
+                        <button class="buy-now-btn" onclick="addToCart('Cow 1', 1)">Buy Now</button>
+
                     </div>
                 </div>
             </div>
@@ -492,21 +493,24 @@
     </div>
     <div class="table-container">
         <h2>Your Cart</h2>
-        <table class="table table-striped cart-table">
-            <thead>
-                <tr>
-                    <th>Item</th>
-                    <th>Price (R)</th>
-                    <th>Quantity</th>
-                    <th>Total (R)</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="cartItems"></tbody>
-        </table>
-        <button id="pay-button">Pay</button>
+<table class="table table-striped cart-table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Price (R)</th>
+            <th>Quantity</th>
+            <th>Total (R)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="cartItems">
+        <tr>
+            <td colspan="5">Your cart is empty.</td>
+        </tr>
+    </tbody>
+</table>
+<button class="btn btn-success" onclick="checkout()">Proceed to Checkout</button>
 
-        <button class="btn btn-success" onclick="checkout()">Proceed to Checkout</button>
         <!-- Popup Invoice -->
 <div id="invoice-popup" style="display:none;">
     <div id="invoice-content">
@@ -556,6 +560,13 @@ function updateCart() {
 
     document.getElementById('cart-total').textContent = total.toFixed(2);
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const savedCart = JSON.parse(localStorage.getItem('cart'));
+    if (savedCart) {
+        cart = savedCart;
+        updateCart();
+    }
+});
 
 // Function to show invoice popup
 function showInvoice() {
@@ -588,6 +599,36 @@ document.getElementById('close-invoice').addEventListener('click', () => {
         updateCartUI();
         localStorage.setItem('cart', JSON.stringify(cart)); // Save cart to local storage
     }
+    function updateCart() {
+    const cartTableBody = document.querySelector('#cartItems');
+    cartTableBody.innerHTML = ''; // Clear existing entries
+
+    let total = 0;
+
+    cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${item.name}</td>
+            <td>${item.price.toFixed(2)}</td>
+            <td>${item.quantity}</td>
+            <td>${itemTotal.toFixed(2)}</td>
+            <td><button onclick="removeFromCart('${item.name}')">Remove</button></td>
+        `;
+        cartTableBody.appendChild(row);
+    });
+
+    document.getElementById('cartCount').textContent = cart.length; // Update cart count
+    document.getElementById('invoice-total').textContent = total.toFixed(2);
+}
+
+function removeFromCart(itemName) {
+    cart = cart.filter(item => item.name !== itemName);
+    updateCart();
+}
+
 
     function updateCartUI() {
         const cartItems = document.getElementById('cartItems');
