@@ -1,85 +1,70 @@
 
-         let modal = document.getElementById("myModal");
+    async function loadEmployeeData() {
+        try {
+            const response = await fetch('fetch_data.php');
+            const data = await response.json();
 
+            // Populate Total Employees Table
+            const totalEmployeesTable = document.getElementById('total-employees');
+            data.employees.forEach((employee, index) => {
+                const row = `<tr>
+                                <td>${index + 1}</td>
+                                <td>${employee.name}</td>
+                                <td>${employee.surname}</td>
+                                <td>${employee.address}</td>
+                                <td>${employee.employee_id}</td>
+                                <td>${employee.contact}</td>
+                                <td>${employee.race}</td>
+                                <td>${employee.gender}</td>
+                                <td>${employee.position}</td>
+                                <td>${employee.leave_days}</td>
+                             </tr>`;
+                totalEmployeesTable.innerHTML += row;
+            });
 
-         let mainContainer = document.querySelector(".main-container");
+            // Populate Employees on Leave Table
+            const employeesOnLeaveTable = document.getElementById('employees-on-leave');
+            data.employeesOnLeave.forEach((employee, index) => {
+                const row = `<tr>
+                                <td>${index + 1}</td>
+                                <td>${employee.name}</td>
+                                <td>${employee.surname}</td>
+                                <td>${employee.status}</td>
+                                <td>${employee.expected_return}</td>
+                             </tr>`;
+                employeesOnLeaveTable.innerHTML += row;
+            });
 
+            // Populate Employee Performance Table
+            const performanceTable = document.getElementById('employee-performance');
+            data.performance.forEach((performance, index) => {
+                const row = `<tr>
+                                <td>${index + 1}</td>
+                                <td>${performance.name}</td>
+                                <td>${performance.surname}</td>
+                                <td>${performance.performance_rating}</td>
+                                <td>${performance.remarks}</td>
+                             </tr>`;
+                performanceTable.innerHTML += row;
+            });
 
-         let span = document.getElementsByClassName("close")[0];
+            // Populate Best Employees Cards
+            const bestEmployeesContainer = document.getElementById('best-employees');
+            data.bestEmployees.forEach(employee => {
+                const card = `<div class="card best-employee-card">
+                                <img src="${employee.img_src}" class="card-img-top" alt="${employee.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${employee.name} ${employee.surname}</h5>
+                                    <p class="card-text">${employee.role}</p>
+                                </div>
+                              </div>`;
+                bestEmployeesContainer.innerHTML += card;
+            });
+        } catch (error) {
+            console.error("Error loading employee data:", error);
+        }
+    }
 
-         mainContainer.onclick = function () {
-             modal.style.display = "block";
-         }
+    // Load data on page load
+    window.onload = loadEmployeeData;
 
-
-         span.onclick = function () {
-             modal.style.display = "none";
-         }
-
-
-         window.onclick = function (event) {
-             if (event.target == modal) {
-                 modal.style.display = "none";
-             }
-         }
-
-         document.getElementById('sendButton').addEventListener('click', async function () {
-             let userInputElement = document.getElementById('userInput');
-             if (userInputElement) {
-                 let userInput = userInputElement.value;
-                 if (userInput.trim() !== "") {
-                     let chatMessages = document.getElementById('chatMessages');
-
-                     let userMessage = document.createElement('div');
-                     userMessage.className = 'user-message';
-                     userMessage.textContent = userInput;
-                     chatMessages.appendChild(userMessage);
-
-                     let spinner = document.createElement('div');
-                     spinner.className = 'spinner';
-                     chatMessages.appendChild(spinner);
-
-
-                     setTimeout(() => {
-
-                         chatMessages.removeChild(spinner);
-
-
-                         let botMessageText = "If you want me to answer your questions use a chatGPT api key!";
-
-
-                         let botMessage = document.createElement('div');
-                         botMessage.className = 'bot-message';
-                         botMessage.textContent = botMessageText;
-                         chatMessages.appendChild(botMessage);
-
-
-                         chatMessages.scrollTop = chatMessages.scrollHeight;
-                     }, 1000);
-
-                     userInputElement.value = "";
-
-                     chatMessages.scrollTop = chatMessages.scrollHeight;
-                 }
-             } else {
-                 console.error('Error: userInput element not found.');
-             }
-         });
-
-         document.querySelectorAll('.response-option').forEach(button => {
-             button.addEventListener('click', function() {
-                 let userInputElement = document.getElementById('userInput');
-                 userInputElement.value = this.textContent;
-                 document.getElementById('sendButton').click();
-             });
-         });
-
-
-         setTimeout(() => {
-             document.getElementById('popup').style.display = 'block';
-         }, 2000);
-
-
-         document.querySelector('.close-popup').onclick = function() {
-           document.getElementById('popup').style.display = 'none';
-         }  
