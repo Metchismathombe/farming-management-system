@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Green Farming Management System</title>
+    <link rel="stylesheet" href="home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Agdasima:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div ><i class="fas fa-tractor"></i> FARMING MANAGEMENT SYSTEM</div>
+        <ul>
+            <li><a href="../home/home.html">HOME</a></li>
+            <li><a href="../about us/about-us.html">ABOUT US</a></li>
+            <li><a href="../admin login signup/login.html">LOGIN</a></li>
+        </ul>
+    </nav>
+
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="background.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="transparent-container">
+        <div class="component">
+            <h2>Crops information</h2>
+            <div class="images">
+                <img src="../crops/crop1.png" alt="Asset 1" onclick="showPopup(this)">
+                <img src="../crops/arrot.png" alt="Asset 3" onclick="showPopup(this)">
+                <img src="../crops/aalad.png" alt="Asset 4" onclick="showPopup(this)">
+            </div>
+            <p>This component helps in managing and tracking all the assets within the farm, ensuring they are maintained and utilized effectively.</p>
+            <button onclick="location.href='../crops information/crops.html'">Explore</button>
+        </div>
+       
+        <div class="component">
+            <h2>Livestock information</h2>
+            <div class="images">
+                <img src="./livestock.png" alt="Livestock 1" onclick="showPopup(this)">
+                <img src="../livestock information/livestock3.jpg" alt="Livestock 2" onclick="showPopup(this)">
+                <img src="../livestock information/livestock2.jpg" alt="Livestock 3" onclick="showPopup(this)">
+            </div>
+            <p>The livestock component tracks animal health, breeding, and production, helping you maintain the well-being and productivity of your herd.</p>
+            <button onclick="location.href='../livestock information/livestock.html'">Explore</button>
+        </div>
+       
+        <div class="component">
+            <h2>Fields</h2>
+            <div class="images">
+                <img src="../fields info/fields2.jpg" alt="Field 1" onclick="showPopup(this)">
+                <img src="../fields info/fields3.jpg" alt="Field 2" onclick="showPopup(this)">
+                <img src="../fields info/fields4.jpg" alt="Field 4" onclick="showPopup(this)">
+            </div>
+            <p>Field management allows you to track the usage, condition, and rotation of your fields to maximize productivity and sustainability.</p>
+            <button onclick="location.href='../fields/fields.html'">Explore</button>
+        </div>
+    </div>
+
+    <!-- Popup container -->
+    <div id="popup-container" class="popup-container" onclick="hidePopup()">
+        <span class="close-popup">&times;</span>
+        <img id="popup-image" src="" alt="Popup Image">
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Green Farming Management System. All Rights Reserved.</p>
+            <ul>
+                <li><a href="../privacy policy/privacy.html">Privacy Policy</a></li>
+                <li><a href="../T&C/tnc.html">Terms of Service</a></li>
+                <li><a href="../contact us/contact.html">Contact Us</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="home.js"></script>
+</body>
+</html>
